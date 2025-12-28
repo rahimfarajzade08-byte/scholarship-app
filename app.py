@@ -1,36 +1,41 @@
+from adiak_score import calculate_adiak_grade
+from english_score import calculate_english_grade
+from ict_score import calculate_ict_grade
 qrup_1_RI = [250104, 250108, 250107, 250103, 250110]
 qrup_1_RK = [250101, 250102]
 qrup_2 = [250109, 250111]
 
 class Student:
-    def __init__(self, ixtisas_id, name, surname, semester, english_point):
+    def __init__(self, ixtisas_id, name, surname, semester, english_point, adiak_point, ict_point):
         self.ixtisas_id = int(ixtisas_id)
         self.name = name
         self.surname = surname
         self.semester = str(semester)
         self.english_point = english_point
-        self.adiak_point = 0
+        self.adiak_point = adiak_point
         self.history_point = 0
+        self.ict_point = ict_point
 
     def bal_melumatlarini_al(self):
         # Ixtisas və semestrə görə yalnız birini soruşur
         if self.ixtisas_id in qrup_1_RI:
             if self.semester == '1':
-                self.adiak_point = float(input(f"{self.name} üçün ADİAK balını daxil edin: "))
+                self.adiak_point = calculate_adiak_grade()
             else:
-                self.history_point = float(input(f"{self.name} üçün Tarix balını daxil edin: "))
+                self.history_point =  float(input(f"{self.name} üçün Tarix balı: "))
         elif self.ixtisas_id in qrup_1_RK or self.ixtisas_id in qrup_2:
             if self.semester == '1':
-                self.history_point = float(input(f"{self.name} üçün Tarix balını daxil edin: "))
+                self.history_point = float(input(f"{self.name} üçün Tarix balı: "))
             else:
-                self.adiak_point = float(input(f"{self.name} üçün ADİAK balını daxil edin: "))
+                self.adiak_point = calculate_adiak_grade()
 
     def neticeleri_goster(self):
         # Bu hissə yalnız dəyəri olan balı göstərir
         print(f"\n--- Məlumat Paneli ---")
         print(f"Tələbə: {self.name} {self.surname}")
         print(f"İngilis dili: {self.english_point}")
-        
+        print(f"Adiak: {self.adiak_point}")
+        print(f"ICT: {self.ict_point}")
         if self.adiak_point > 0:
             print(f"ADİAK balı: {self.adiak_point}")
         
@@ -38,6 +43,6 @@ class Student:
             print(f"Tarix balı: {self.history_point}")
 
 # --- İSTİFADƏ ---
-telebe1 = Student(input("ID: "), input("Ad: "), input("Soyad: "), input("Semestr: "), input("Ingilis dili:"))
+telebe1 = Student(input("ID: "), input("Ad: "), input("Soyad: "), input("Semestr: "), calculate_english_grade(), calculate_adiak_grade(), calculate_ict_grade())
 telebe1.bal_melumatlarini_al() # Lazım olan balı soruşur
 telebe1.neticeleri_goster()     # Yalnız o balı göstərir

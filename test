@@ -1,31 +1,48 @@
+import adiak_score
+import english_score
 qrup_1_RI = [250104, 250108, 250107, 250103, 250110]
 qrup_1_RK = [250101, 250102]
 qrup_2 = [250109, 250111]
+
 class Student:
     def __init__(self, ixtisas_id, name, surname, semester, english_point):
-        self.ixtisas_id = ixtisas_id
+        self.ixtisas_id = int(ixtisas_id)
         self.name = name
         self.surname = surname
-        self.semester = semester      # 1 və ya 2
+        self.semester = str(semester)
         self.english_point = english_point
         self.adiak_point = 0
         self.history_point = 0
-    def ballari_sorus(self):
-        if self.semester == '1' and self.ixtisas_id in qrup_1_RI:
-            self.adiak_point = float(input(f"{self.name} üçün ADİAK balını daxil edin: "))
-        elif self.semester == '2' and self.ixtisas_id in qrup_1_RI:
-            self.history_point = float(input(f"{self.name} üçün Tarix balını daxil edin: "))
-        elif self.semester == '1' and (self.ixtisas_id in qrup_1_RK or self.ixtisas_id in qrup_2):
-            self.history_point = float(input(f"{self.name} üçün Tarix balını daxil edin: "))
-        elif self.semester == '2' and (self.ixtisas_id in qrup_1_RK or self.ixtisas_id in qrup_2):
-            self.adiak_point = float(input(f"{self.name} üçün ADİAK balını daxil edin: "))
-a = int(input("Ixtisas ID: "))
-b = input("Ad: ")
-c = input("Soyad: ")
-d = input("Semestr: ")
-pre_eng = float(input("Ingiliscə pre-exam: "))
-final_eng = float(input("Final ing: "))
-total_eng = pre_eng + final_eng
-t1 = Student(a, b, c, d, total_eng)
-t1.ballari_sorus()
-print(t1.ixtisas_id, t1.name, t1.surname, t1.semester, t1.english_point)
+
+    def total_score(self):
+        return self.english_point + self.adiak_point + self.history_point
+
+    def bal_melumatlarini_al(self):
+        if self.ixtisas_id in qrup_1_RI:
+            if self.semester == '1':
+                self.adiak_point = adiak_score.calculate_adiak_grade()
+            else:
+                self.history_point = float(input(f"{self.name} üçün Tarix balı: "))
+        elif self.ixtisas_id in qrup_1_RK or self.ixtisas_id in qrup_2:
+            if self.semester == '1':
+                self.history_point = float(input(f"{self.name} üçün Tarix balı: "))
+            else:
+                self.adiak_point = adiak_score.calculate_adiak_grade()
+
+    def neticeleri_goster(self):
+        # Bu hissə yalnız dəyəri olan balı göstərir
+        print(f"\n--- Məlumat Paneli ---")
+        print(f"Tələbə: {self.name} {self.surname}")
+        print(f"İngilis dili: {self.english_point}")
+        
+        if self.adiak_point > 0:
+            print(f"ADİAK balı: {self.adiak_point}")
+        
+        if self.history_point > 0:
+            print(f"Tarix balı: {self.history_point}")
+
+
+# --- İSTİFADƏ ---
+telebe1 = Student(input("ID: "), input("Ad: "), input("Soyad: "), input("Semestr: "), english_score.calculate_english_grade())
+telebe1.bal_melumatlarini_al() # Lazım olan balı soruşur
+telebe1.neticeleri_goster()     # Yalnız o balı göstərir
