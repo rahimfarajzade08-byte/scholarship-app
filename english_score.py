@@ -25,3 +25,13 @@ def calculate_english_grade():
     final_score = pre_exam_total + after_exam_total
     
     return final_score
+
+
+def calculate_english_from_components(assessment, writing, p1, p2, p3, participation, midterm):
+    """
+    Formdan gələn komponentlərə əsasən İngilis dili yekun balını hesablayır
+    """
+    pres_avg = (p1 + p2 + p3) / 3
+    pre_exam_total = (assessment * 0.20) + (writing * 0.10) + (pres_avg * 0.10) + (participation * 0.10)
+    after_exam_total = midterm * 0.50
+    return pre_exam_total + after_exam_total

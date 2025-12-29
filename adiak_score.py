@@ -27,3 +27,13 @@ def calculate_adiak_grade():
     total_score = pre_exam_total + final_contribution
     
     return total_score
+
+
+def calculate_adiak_from_components(presentation, participation, midterm_raw, final_raw):
+    """
+    Formdan gələn komponentlərə əsasən ADIAK yekun balını hesablayır
+    """
+    midterm_contribution = midterm_raw * 0.20
+    pre_exam_total = presentation * 0.15 + participation * 0.2 + midterm_contribution * 0.2
+    final_contribution = final_raw * 0.45
+    return pre_exam_total + final_contribution

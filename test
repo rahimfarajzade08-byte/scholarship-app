@@ -13,9 +13,10 @@ class Student:
         self.english_point = english_point
         self.adiak_point = 0
         self.history_point = 0
+        self.ict_point = 0
 
     def total_score(self):
-        return self.english_point + self.adiak_point + self.history_point
+        return self.english_point + self.adiak_point + self.history_point + self.ict_point
 
     def bal_melumatlarini_al(self):
         if self.ixtisas_id in qrup_1_RI:
